@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Layout from "../../components/Layout";
 import { Container, Row, Col, Modal, Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllCategory, addCategory } from "../../actions";
+import { addCategory } from "../../actions";
 import Input from "../../components/UI/Input";
 
 const Category = (props) => {
@@ -13,25 +13,18 @@ const Category = (props) => {
   const [show, setShow] = useState(false);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(getAllCategory());
-  }, []);
-
   const handleClose = () => {
     const form = new FormData();
 
     form.append("name", categoryName);
     form.append("parentId", parentCategoryId);
     form.append("categoryImage", categoryImage);
-    dispatch(addCategory(form))
-    // const cat = {
-    //   categoryName,
-    //   parentCategoryId,
-    //   categoryImage,
-    // };
-    // console.log(cat);
+    dispatch(addCategory(form));
+    setCategoryName("");
+    setCategoryImage("");
     setShow(false);
   };
+
   const handleShow = () => setShow(true);
 
   const renderCategories = (categories) => {
@@ -46,7 +39,7 @@ const Category = (props) => {
           ) : null}
         </li>
       );
-    } 
+    }
     return myCategories;
   };
 
@@ -108,6 +101,7 @@ const Category = (props) => {
               </option>
             ))}
           </select>
+
           <input
             type="file"
             name="categoryImage"
